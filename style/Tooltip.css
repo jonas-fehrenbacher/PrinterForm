@@ -1,0 +1,31 @@
+.tooltip {
+    position: relative;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 2rem; /* Needs to be more to the right side, so that the mouse cursor can move down and hover over a different help box. */
+
+    width: 15rem;
+    box-shadow: 3px 8px 8px #aaaaaa;
+}
+
+/* Move tooltip on mobile phones to the left, so they are inside the screen. */
+@media screen and (max-width: 600px) {
+    .tooltip-text {
+        width: 10rem;
+        left: -10.5rem;
+    }
+}
+
+/* tooltip:hover is required - it does not work with tooltip-text:hover. */
+.tooltip:hover .tooltip-text {
+    display: block;
+
+    padding: 0.25rem;
+    border: 0.1rem solid black;
+
+    background-color: white;
+}

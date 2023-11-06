@@ -1,0 +1,54 @@
+/* As large as the whole screen. */
+.emailConfirmationState {
+    display: flex;
+    position: fixed;
+    /*z-index: 1;*/
+
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    background-color: rgb(242, 242, 242); /* dark transparent: rgba(0, 0, 0, 0.4) */
+}
+
+.emailConfirmationBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+
+    width: 36rem;
+    height: 30rem;
+    margin: auto; /* center box horizontally and shrinks box vertically with display flex. */
+    padding: 1.5rem;
+
+    background-color: rgb(255, 255, 255); /* rgb(245, 245, 245) */
+}
+
+@media screen and (max-width: 600px) {
+    .emailConfirmationBox {
+        width: 95%;
+    }
+}
+
+.emailConfirmationBox-title {
+    color: #474747;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.5rem;
+    font-size: 2rem;
+    line-height: 1.375;
+    font-weight: 700;
+}
+
+.emailConfirmationBox-text {
+    color: #474747;
+    line-height: 1.875;
+    font-size: 1.3rem;
+    font-weight: lighter;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #474747;
+}
+
+/* Use .defaultButton */

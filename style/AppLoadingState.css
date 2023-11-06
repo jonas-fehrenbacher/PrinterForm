@@ -1,0 +1,22 @@
+#appLoadingState {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* circleLoader */
+
+.circleLoader {
+    /*border: 1rem solid rgb(240, 240, 240);*/
+    border-radius: 50%;
+    border-top: 1rem solid #85a4b8;
+    width: 7.5rem;
+    height: 7.5rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,14 @@
+{
+    "email": {
+        "maxAttachmentsMemorySize": 70000000,
+        "messageAllowHTML": false
+    },
+    "mailTo": {
+        "address": "info@typeteam-solingen.de",
+        "useDefaultBody": false
+    },
+    "language": "de",
+    "backBtnLink": "http://typeteam-solingen.de/",
+    "captchaSitekey": "3x00000000000000000000FF",
+    "defaultPrintJobCount": 0
+}

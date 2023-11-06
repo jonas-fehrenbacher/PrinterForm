@@ -1,0 +1,57 @@
+<div class="printJob">
+    <div class="printJob-header">
+        <span class="title"></span>
+        <svg width="40" height="40" class="closeBtn">
+            <use xlink:href="#close-symbol" />
+        </svg>
+    </div>
+    <hr>
+    <div class="printJob-body">
+        <span class="printJob-item fileTitle"></span> 
+        <div class="form-fileSubstitute printJob-item"> <!-- This is required, so that I can hide or shrink the file upload text in this grid item. -->
+            <input type="file" class="form-file" name="filename" multiple>
+            <input class="fileUploadBtn" type="button" />
+        </div>
+        <div class="tooltip printJob-item">
+            <svg width="24" height="24"><use xlink:href="#help-symbol" /></svg>
+            <span class="tooltip-text fileHelpText"></span> 
+        </div>
+    
+        <span class="printJob-item countTitle"></span> 
+        <input type="text" class="form-count printJob-item" placeholder="1">
+        <div class="tooltip printJob-item">
+            <svg width="24" height="24"><use xlink:href="#help-symbol" /></svg>
+            <span class="tooltip-text countHelpText"></span> 
+        </div>
+        
+        <span class="printJob-item formatTitle"></span>
+        <select name="Page Format" class="form-format printJob-item">
+            <option value="form-printJob-format-a4"></option>
+            <option value="form-printJob-format-a3"></option>
+            <option value="form-printJob-format-a5"></option>
+            <option value="form-printJob-format-special"></option>
+        </select>
+        <div class="tooltip printJob-item">
+            <svg width="24" height="24"><use xlink:href="#help-symbol" /></svg>
+            <span class="tooltip-text formatHelpText"></span> 
+        </div>
+        
+        <span class="printJob-item paperTypeTitle"></span>
+        <select name="page-type" class="form-paperType printJob-item">
+            <option value="form-printJob-paperType-standard"></option>
+            <option value="form-printJob-paperType-recycledPaper"></option>
+            <option value="form-printJob-paperType-coatedPaper"></option>
+        </select>
+        <div class="tooltip printJob-item">
+            <svg width="24" height="24"><use xlink:href="#help-symbol" /></svg>
+            <span class="tooltip-text paperTypeHelpText"></span> 
+        </div>
+    
+        <span class="printJob-item colorTypeTitle"></span>
+        <input type="checkbox" class="form-color printJob-item" name="form-color" value="color">
+        <div class="tooltip printJob-item">
+            <svg width="24" height="24"><use xlink:href="#help-symbol" /></svg>
+            <span class="tooltip-text colorTypeHelpText"></span> 
+        </div>
+    </div>
+</div>

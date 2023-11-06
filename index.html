@@ -1,0 +1,194 @@
+<!--
+	"WP Coder"-Plugin: Use this to write your HTML, CSS and JS code and use its shortcut (e.g. [WP-Coder id="1"]) to inject everything into a page.
+    "Insert PHP Code Snippet"-Plugin: Use this to insert HTML, CSS, JS and PHP (By xyzscripts.com).
+
+    Wordpress call php from js:
+    - First option would be to specify a function which makes an ajax call: 'add_action("in_admin_footer", "ajaxCaller")'.
+      The function looks like that: 
+      function ajaxCaller() { ?> 
+        <script>
+        ...
+        request.send("action=sendMail"."&helloWorld=Hello");
+        </script>
+      <?php }
+      And to have a php function which is called by this javaScript code:
+      function sendMail() {
+        if (isset($_REQUEST)) {
+            echo $_REQUEST["helloWorld"];
+        }
+        die(); // it's recommended to die
+      }
+      add_action("wp_ajax_sendMail", "sendMail"); // for login users
+      add_action( 'wp_ajax_nopriv_sendMail', 'sendMail' ); // for non-login users
+    - You can add a ajax action with add_action("wp_ajax_<name>", "<name>"). It is important to have 'wp_ajax_' and then your name.
+      This name (after 'wp_ajax_') is important, because this name can be used in an ajax call by doning: 
+      'request.send("action=<name>"."&data=...");'. 
+    - Get URL where admin-ajax.php is:
+        function printAdminURL() {
+        	echo '<script>console.log("Admin url: '.admin_url( 'admin-ajax.php' ).'");</script>';
+        }
+        add_action("init", "printAdminURL");
+    - Your ajax call needs to be done to "wp-admin/admin-ajax.php". The URL could potentially look like this, but we are doing a post request: 
+      http://printerform.local/wp-admin/admin-ajax.php?action=sendMail
+    - see: https://www.youtube.com/watch?v=OwBBxwmG49w
+    - If an error occured 400 (bad request) will come.
+    - maybe use wp_mail() and add_action( 'phpmailer_init', 'my_phpmailer_example' ); to set some basic settings.
+    - send email after button click:
+        - For this I use "WP Coder"-Plugin for HTML, CSS and JavaScript and "Code Snippets"-Plugin for PHP.
+        - HTML:
+          <button id="sendMailBtn" onClick="sendMail();">Send mail</button>
+        - JS:
+          function sendMail()
+          {
+          		const request = new XMLHttpRequest();
+              request.onload = function () {
+                  // ..request has been successfully completed
+                  console.log("Server response: " + this.responseText);
+              };
+              request.open("POST", "../wp-admin/admin-ajax.php"); // options: "../wp-admin/admin-ajax.php"; //printerform.local/wp-admin/admin-ajax.php
+              request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+              request.send("action=sendMail");
+          }
+        - PHP:
+          add_action( 'phpmailer_init', function ( $phpmailer ) {
+          	print_r('Init phpmailer!\n');
+              $phpmailer->isSMTP();
+              $phpmailer->Host       = 'smtp.web.de';
+              $phpmailer->Port       = '587';
+              $phpmailer->SMTPSecure = 'tls';
+              $phpmailer->SMTPAuth   = true;
+              $phpmailer->Username   = 'jonas-fehrenbacher@web.de';
+              $phpmailer->Password   = '<pw>';
+              $phpmailer->From       = 'jonas-fehrenbacher@web.de';
+              $phpmailer->FromName   = 'Jonas Fehrenbacher';
+          });
+
+          add_filter( 'wp_mail_content_type', function () { 
+          	return "text/html"; 
+          });
+
+          add_action('wp_ajax_sendMail', function () {
+          	print_r('PHP hook was called!\n'); // <script>console.log("PHP hook was called!");</script>
+          
+          	$to      = 'jonas-fehrenbacher@web.de';
+            $subject = 'Hello from Wordpress';
+            $message = '<h1>Hello from Wordpress!</h1>';              
+          
+            $sent = wp_mail( $to, $subject, $message );
+          
+          	if($sent) {
+          	  print_r("Email sent!");    
+          	}
+          	else  {   
+          	  print_r("Email wasn't sent!");
+          	}
+          });
+        - see: https://wordpress.stackexchange.com/questions/344009/how-to-use-phpmailer-in-a-function-in-wordpress
+    
+
+    PHP:
+    - wordpress:
+        To insert PHP into the webpage on wordpress use "Insert PHP Code Snippet" (XYZ PHP Code). There are more common
+        plugins for php, but they do not work properly or at least they do not insert PHP code and seem to only add
+        hooks (add_action, add_filter):
+        See: https://www.hostinger.com/tutorials/wordpress/how-to-add-php-code-to-wordpress-post-or-page
+    - Own PHP webserver:
+      Just use "PHP Server" extention in vs code to do this. Note that the "Live Server" extention works only with HTML, but "PHP Server" works with both.
+      If the error "No php found" occurs, then it has not found "php.exe". To fix that open your extention settings
+      (Go to your extentions and there is a gear) and set the "PHP Path" to your php executable. If the same error is still occuring,
+      then probably 'php.exe' can not be run (try 'php.exe -v'). If thats the case then a solution could be to install new
+      "Microsoft Visual C++ Redistributable" (or what is needed by this PHP version).
+    - GET vs POST:
+        GET sends data to the URL (good for bookmarking) with a limit of 2000 chars and 
+        POST sends data invisible to others (good for sensitive data).
+        To check the method: 'if ($_SERVER["REQUEST_METHOD"] == "POST") { ... }'
+    - form:
+        Send form data to php:
+            - Send form data to the same page using: '<form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">'
+              For security resons use: 'htmlspecialchars($_SERVER["PHP_SELF"]);', because the user can add malicious code inside
+              the URL.
+            - Refreshing the page will also resend the $_POST data (not even clearing the cache helps). To prevent the form from
+              being send again by refreshing the page it is recommended to use the PRG design pattern. Another solution would be
+              to store a '$_SESSION["submitID"]' variable to identify if something new was send. Along with that use
+              '<input type="hidden" value="<?php echo $_SESSION["submitID"] + 1; ?>" name="randcheck" />'.
+              See: https://en.wikipedia.org/wiki/Post/Redirect/Get
+                   https://stackoverflow.com/questions/6320113/how-to-prevent-form-resubmission-when-page-is-refreshed-f5-ctrlr
+        PHP checks:
+            - Check if something was submitted: 'isset($_POST["submit"])' (it is required to use <button name="submit" type="submit">)
+            - Check if a field is empty in PHP: 'empty($_POST["name"])'
+        HTML:
+            It is required to specify the 'name' attribute, because this will be the PHP array item name ($_POST["name"]).
+        File upload:
+            - form: '<form .. enctype="multipart/form-data">' is required to send files to PHP. 'enctype' specifies the encoding -
+              available values: 'application/x-www-form-urlencoded' (default), 'multipart/form-data', 'text/plain'.
+            - To send files via a forms to PHP you have to specify 'file_uploads = On' in the "php.ini" file.
+            - PHP get file name:         'basename($_FILES["inputName"]["name"])'
+              PHP get file extension:    strtolower(pathinfo( $_FILES["inputName"]["tmp_name"] ,PATHINFO_EXTENSION))
+              PHP get file size:         $_FILES["inputName"]["size"]
+              PHP get tmp file path?:    $_FILES["inputName"]["tmp_name"]
+              PHP Check file existence:  file_exists( $_FILES["inputName"]["tmp_name"] )
+              PHP Helpers:               file_uploads: bool, upload_tmp_dir: string,  upload_max_filesize: int,   max_file_uploads: int
+            - Upload form fields with the same name:
+              <input name="userfile[]" type="file" /><br>
+              <input name="userfile[]" type="file" /><br>
+              => $_FILES['userfile']['name'][0], $_FILES['userfile']['tmp_name'][0], $_FILES['userfile']['size'][0], and $_FILES['userfile']['type'][0]
+            - Upload files with multiselect:
+              <input name="userfile[]" type="file" webkitdirectory multiple />
+            See: https://www.php.net/manual/en/features.file-upload.multiple.php
+
+    See: https://www.w3schools.com/php/php_forms.asp
+         https://www.w3schools.com/php/php_form_validation.asp
+
+    Maybe use aria-labels with placeholders. See: https://www.w3schools.com/accessibility/accessibility_labels.php
+-->
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typeteam Druckformular</title>
+    <meta name="description" content="Geben Sie hier einen Druckauftrag in Bearbeitung.">
+    <meta name="keywords" content="Typeteam, Druckauftrag, drucken, Druck">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+    <link rel="stylesheet" href="style/main.css">
+    <!--<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>--> <!-- async: download in the background -->
+    <!-- 
+		"turnstile/v0/api.js" does its thing probably when 'DOMContentLoaded' is true, so loading the 'cf-turnstile'-Div
+		dynamically will not work. Maybe it can be rerun.
+        reCaptcha; use before submit button: '<div class="cf-turnstile" data-sitekey="3x00000000000000000000FF"></div>'; 
+        see guide: https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/
+        see test keys: https://developers.cloudflare.com/turnstile/reference/testing/ 
+    -->
+</head>
+<body>
+    <div id="state">
+        <!-- States are loaded via js.. -->
+    </div>
+
+    <!-- inline svg: -->
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" display="none">
+        <symbol width="40" height="40" viewBox="0 -960 960 960"  id="close-symbol">
+            <path d="M334.667-317.333 480-462.667l145.333 145.334 17.334-17.334L497.333-480l145.334-145.333-17.334-17.334L480-497.333 334.667-642.667l-17.334 17.334L462.667-480 317.333-334.667l17.334 17.334ZM480.174-132Q408-132 344.775-159.391q-63.225-27.392-110.574-74.681-47.349-47.29-74.775-110.435Q132-407.652 132-479.826q0-72.174 27.391-135.732 27.392-63.559 74.681-110.574 47.29-47.016 110.435-74.442Q407.652-828 479.826-828q72.174 0 135.732 27.391 63.559 27.392 110.574 74.348 47.016 46.957 74.442 110.435Q828-552.348 828-480.174q0 72.174-27.391 135.399-27.392 63.225-74.348 110.574-46.957 47.349-110.435 74.775Q552.348-132 480.174-132ZM480-156q135.333 0 229.667-94.333Q804-344.667 804-480t-94.333-229.667Q615.333-804 480-804t-229.667 94.333Q156-615.333 156-480t94.333 229.667Q344.667-156 480-156Zm0-324Z"/>
+        </symbol>
+
+        <symbol height="48" viewBox="0 -960 960 960" width="48" id="add-symbol">
+            <path d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z"/>
+        </symbol>
+
+        <symbol id="help-symbol" height="24" width="24" viewBox="0 -960 960 960">
+            <path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+        </symbol>
+
+        <symbol id="mail-symbol" width="24" height="24" viewBox="0 -960 960 960">
+            <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/>
+        </symbol>
+
+        <symbol id="leftArrow-symbol" width="20" height="20" viewBox="0 -960 960 960">
+            <path d="m385-421 179 179-84 84-322-322 322-322 84 84-179 179h417v118H385Z"/>
+        </symbol>
+    </svg>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>

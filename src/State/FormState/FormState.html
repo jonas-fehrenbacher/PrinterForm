@@ -1,0 +1,35 @@
+<div id="app">
+    <nav>
+        <button class="defaultButton"></button>
+    </nav>
+    
+    <main>
+        <form id="form" onsubmit="return false;"> <!-- use 'return false', so that form does not submit. Use 'reset()' to clear all fields (same as 'document.getElementById("myform").reset();'). -->
+            <div id="form-title"></div>
+            <div id="form-subtitle"></div>
+            <div id="form-description"></div>
+        
+            <input type="text"  name="form-name"  id="form-name">
+            <input type="email" name="form-email" id="form-email" required>
+            <input type="text"  name="form-phone" id="form-phone">
+            <textarea name="form-message" id="form-message" rows="4"></textarea>
+        
+            <div class="addBtn">
+                <svg width="40" height="40">
+                    <use xlink:href="#add-symbol" />
+                </svg>
+            </div>
+        
+            <div id="printJobList">
+                <!-- filled by js -->
+            </div>
+        
+            <div id="captcha" class="cf-turnstile" data-sitekey="" data-theme="light"></div> <!-- release-key: 0x4AAAAAAAJ9d-Y1n-lQfWYv; test-key: 3x00000000000000000000FF; see configurations: https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations -->
+            <div id="captchaRequired"></div>
+        
+            <div class="errorMessageBoxes"></div>
+        
+            <button id="form-submitButton" type="submit"></button>
+        </form>
+    </main>
+</div>

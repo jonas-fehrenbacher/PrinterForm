@@ -1,0 +1,65 @@
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Status box
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* As large as the whole screen. */
+.emailLoadingState {
+    display: flex;
+    position: fixed;
+    /*z-index: 1;*/
+
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    background-color: rgb(242, 242, 242); /* dark transparent: rgba(0, 0, 0, 0.4) */
+}
+
+.emailLoadingBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    width: 36rem;
+    height: 30rem;
+    margin: auto; /* center box horizontally and shrinks box vertically with display flex. */
+    padding: 1.5rem;
+
+    background-color: rgb(255, 255, 255); /* rgb(245, 245, 245) */
+}
+
+@media screen and (max-width: 600px) {
+    .emailLoadingBox {
+        width: 95%;
+    }
+}
+
+.emailLoadingBox-message {
+    font-size: 1.25rem;
+    color: rgb(95, 95, 95);
+}
+
+.emailLoadingBox-percentage {
+    color: rgb(0, 183, 255);
+    font-size: larger;
+    font-size: 2rem;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Loading bar
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.emailLoadingBox-progressBar {
+    width: 100%;
+    height: 2rem;
+    background-color: rgb(207, 207, 207);
+}
+
+.emailLoadingBox-progressBar-progress {
+    width: 0%;
+    height: 2rem;
+    background-color: rgb(76, 175, 80);
+}

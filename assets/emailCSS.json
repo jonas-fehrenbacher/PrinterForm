@@ -1,0 +1,80 @@
+{
+    "header": {
+        "type": "id",
+
+        "padding": "1rem",
+        "margin-bottom": "2rem",
+    
+        "color": "whitesmoke",
+        "letter-spacing": "0.25rem",
+        "font-size": "2rem",
+        "background-color": "rgb(71, 71, 71)"
+    },
+    
+    "subtitle": {
+        "type": "class",
+
+        "font-size": "1.5rem",
+        "margin-top": "1.25rem",
+        "margin-bottom": "1.25rem",
+        "font-weight": "bolder"
+    },
+    
+    "table": {
+        "type": "tag",
+
+        "border": "1px solid black",
+        "border-collapse": "collapse",
+        "margin-bottom": "1rem",
+    
+        "font-family": "arial, sans-serif"
+    },
+    
+    "td": {
+        "type": "tag",
+
+        "border": "1px solid #ccc",
+        "padding": "0.5rem",
+    
+        "text-align": "left"
+    },
+    
+    "th": {
+        "type": "tag",
+
+        "padding": "0.625rem",
+        "border": "none",
+        "background-color": "rgb(71, 71, 71)",
+        
+        "text-align": "left",
+        "color": "whitesmoke"
+    },
+    
+    "tr:nth-child(even)": {
+        "type": "unknown",
+
+        "background-color": "rgb(252, 252, 252)"
+    },
+    
+    "tr:nth-child(odd)": {
+        "type": "unknown",
+
+        "background-color": "rgb(237, 237, 237)"
+    },
+    
+    "messageField": {
+        "type": "id",
+
+        "display": "inline-block",
+        "padding": "0.75rem",
+        "border": "1px solid #ccc",
+        "border-radius": "0.4rem",
+        "background-color": "rgb(252, 252, 252)"
+    },
+    
+    "emptyField": {
+        "type": "class",
+
+        "color": "rgb(203, 203, 203)"
+    }
+}

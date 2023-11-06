@@ -1,0 +1,288 @@
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Form
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/**
+ * @see: wp form https://stockholm82.qodeinteractive.com/contact/
+ * @see responsive form https://www.w3schools.com/howto/howto_css_responsive_form.asp
+ */
+
+form {
+    /*
+        If 'display: flex' is used, then the input and textarea fields are no longer responsive. Without
+        display flex, they automatically shrink when display gets smaller.
+    */
+    padding: 2rem;
+
+    background-color: white;
+}
+
+@media screen and (min-width: 600px) {
+    form {
+        max-width: 35rem; /* May not be on small screens, otherwise form box does not shrink further and overflows. */
+    }
+}
+
+/* Form Text: */
+
+#form-title {
+    margin-top: 1rem;
+
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.25rem;
+}
+
+#form-subtitle {
+    margin-bottom: 2rem;
+
+    font-size: 0.8rem;
+    letter-spacing: 0.125rem;
+}
+
+#form-description {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    font-size: 1rem;
+    background-color: rgb(248, 248, 248);
+}
+
+.insert-emailLink {
+    color: black;
+    text-decoration: none;
+}
+
+/* Form primitive fields: */
+
+form > input, 
+form > textarea {
+    border: 0;
+    border-bottom: 0.1rem solid rgb(225, 225, 225);
+    padding: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+
+    background-color: white; /*rgb(248, 248, 248);*/
+    outline: none;
+}
+
+form > input:focus, 
+form > textarea:focus {
+    border-color: black;
+}
+
+form > input {
+    max-width: 20rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Form elements: */
+
+#form-submitButton {
+    display: inline-block;
+    
+    border: none;
+    padding: 0.5rem;
+    max-width: 6rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    
+    /*text-decoration: underline;
+    text-underline-offset: 0.2rem;*/
+    color: black;
+    cursor: pointer;
+}
+
+#captchaRequired {
+    color: rgb(207, 50, 38);
+}
+
+/* Add button: */
+
+.addBtn {
+    /*min-width: 2.5rem;*//* for small screens, otherwise button is so far to the left that it is hardly drawn; 2.25rem is good on S7, but bad for iPhone SE */
+    border-radius: 50%;
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-top: 1rem;
+
+    /*background-color: rgb(225, 225, 225);*/
+    cursor: pointer;
+}
+
+.addBtn:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.addBtn > svg {
+    margin-top: -0.1rem; 
+    margin-left: -0.1rem; 
+
+    fill: rgb(43, 43, 43); /* must be specified here (not in 'path'), so that :hover can change 'fill'. To be able to use 'fill' you need inline svg ('symbol', 'use'), I guess. */
+    transition: 0.4s; /* Time in which color is changed; 'setTimeout' in js needs to have the same value (0.6s => 600ms) */
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Form - PrintJobList
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+#printJobList {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.printJob {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+
+    background-color: rgb(248, 248, 248);
+    color: black;
+}
+
+/* Header: */
+
+.printJob-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin-bottom: 0rem;
+}
+
+.closeBtn {
+    margin-top: -1.25rem;
+    margin-right: -0.8rem;
+    min-width: 2.5rem;/* for small screens, otherwise button is so far to the left that it is hardly drawn; 2.25rem is good on S7, but bad for iPhone SE */
+
+    fill: gray; /* must be specified here (not in 'path'), so that :hover can change 'fill'. To be able to use 'fill' you need inline svg ('symbol', 'use'), I guess. */
+    transition: 0.4s; /* Time in which color is changed; 'setTimeout' in js needs to have the same value (0.6s => 600ms) */
+    cursor: pointer;
+}
+
+.closeBtn:hover {
+    fill: black;
+}
+
+/* Body: */
+
+.printJob-body {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr auto;
+    row-gap: 0.25rem;
+
+    margin-top: 1.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .printJob-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        row-gap: 0rem;
+    
+        margin-top: 1.5rem;
+    }
+
+    /* '2' selects seconds element and '2n' every second element. You can also do '3n+1' to select every element after the third. 
+        or span name 3 and value two
+        Option 1: grid-column-start: 1; grid-column-end: 2;
+        Option 2: grid-column-start: span 3;
+        User 'order' to set a different order for html elements.
+    */
+
+    .printJob-item:nth-child(3n+1) {
+        grid-column-start: span 2;
+    }
+    .printJob-item:nth-child(3n+2) {
+        grid-column-start: span 3;
+        margin-bottom: 1.5rem;
+    }
+    .printJob-item:nth-child(3n) {
+        grid-column-start: span 1;
+    }
+    
+    .printJob-item:nth-child(1) { order: 1; }
+    .printJob-item:nth-child(2) { order: 3; }
+    .printJob-item:nth-child(3) { order: 2; }
+    .printJob-item:nth-child(4) { order: 4; }
+    .printJob-item:nth-child(5) { order: 6; }
+    .printJob-item:nth-child(6) { order: 5; }
+    .printJob-item:nth-child(7) { order: 7; }
+    .printJob-item:nth-child(8) { order: 9; }
+    .printJob-item:nth-child(9) { order: 8; }
+    .printJob-item:nth-child(10) { order: 10; }
+    .printJob-item:nth-child(11) { order: 12; }
+    .printJob-item:nth-child(12) { order: 11; }
+    .printJob-item:nth-child(13) { order: 13; }
+    .printJob-item:nth-child(14) { order: 15; margin-bottom: 0rem; }
+    .printJob-item:nth-child(15) { order: 14; }
+}
+
+.printJob-item {
+    /* Do not hide overflow, because I want to display the tooltip text which has position absolute. */
+    justify-self: start;
+
+    text-overflow: ellipsis; /* Display '...' on Text overflow. Requires 'overflow: hidden'. */
+}
+
+/* Body - Form primitive fields: */
+
+.printJob > input[type=text], 
+.printJob > textarea, 
+.printJob > select {
+    padding: 0.25rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+    width: 100%;
+}
+
+/* Body - Form elements: */
+
+/*
+ * Important: The pseudo element after does not work with input, because izt needs a container.
+ */
+ .form-fileSubstitute::after {
+    content: attr(form-fileSubstitute-text); 
+}
+
+.form-file {
+    display: none;
+}
+
+.form-count {
+    width: 25%;
+}
+
+/* errorMessageBox: */
+
+.errorMessageBoxes {
+    padding: 0.25rem;
+}
+
+.errorMessageBox {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+    background-color: rgb(255, 202, 201);
+    border-left: 0.4rem solid rgb(144, 18, 14);
+
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+.errorMessageBox-label {
+    font-weight: bold;
+}

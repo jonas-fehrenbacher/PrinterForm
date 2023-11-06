@@ -1,0 +1,97 @@
+@import url("Form.css");
+@import url("EmailLoadingState.css");
+@import url("EmailConfirmationState.css");
+@import url("Tooltip.css");
+@import url("AppLoadingState.css");
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Main
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* 'width/height + padding + border = actual width/height' is the normal calculation, but 'border-box' changes this so that width/height includes padding and border. */
+    margin: 0;
+    padding: 0;
+    font: inherit; /* remove h1..h6 behaviour and everything inherits the parents font. By default, buttons and inputs 
+        don't inherit typographical styles from their parents, so they use the system-default monospace and 13.333px in Chrome.
+        1rem/16px is the default size. */
+    /*overflow-wrap: break-word;*/ /* If a line doesn't have any soft wrap (in english there is only whitespace and hyphens) 
+        opportunities, and it doesn't fit, it will cause the text to overflow by default, but with 'break-word' it does
+        an hard wrap (break a word) if no soft wrap is possible. */
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: rgb(242, 242, 242); /*248*/
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+
+    /*min-height: 100vh;*/
+}
+
+nav {
+    margin-top: 2.5rem;
+    margin-left: -24.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    nav {
+        margin-left: 0rem;
+    }
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 2.5rem;
+
+    background-color: white; /*rgb(248, 248, 248);*/
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Helper
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Symbol */
+
+.centerSymbol {
+    vertical-align: bottom;
+}
+
+/* Button */
+
+.defaultButton {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.4rem;
+    padding-bottom: 1.4rem;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 0.5rem;
+
+    background-color: rgba(0, 0, 0, 0); /* transparent */
+    color: #474747;
+    font-size: 1rem;
+    letter-spacing: 0.25rem;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.defaultButton:hover {
+    border: 1px solid rgb(0, 224, 224);
+    color: rgb(0, 224, 224);
+}
+
+.defaultButton:hover .centerSymbol {
+    fill: rgb(0, 224, 224);
+}
